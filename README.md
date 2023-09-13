@@ -14,7 +14,7 @@ An alternative launcher for VR headsets supporting official/sideloaded apps and 
 * Hit play button in Android Studio
 
 ## Similar Projects
-* [QuestPiLauncher] (https://github.com/threethan/LightningLauncher).
+* [LightningLauncher] (https://github.com/threethan/LightningLauncher).
 * [DreamGrid](https://github.com/basti564/DreamGrid), a more Oculus-centric fork of piLauncher
 * [PicoZen](https://github.com/barnabwhy/PicoZen), launcher made to look more like a native Pico app
 * [QuestPiLauncher] (https://github.com/lvonasek/QuestPiLauncher).
