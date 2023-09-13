@@ -230,5 +230,13 @@ public class GroupsAdapter extends BaseAdapter {
                 filler.setBackgroundColor(Color.TRANSPARENT);
         }
     }
+
 }
+    public void setGroup(String packageName, String groupName) {
+        Map<String, String> apps = settingsProvider.getAppList();
+        apps.remove(packageName);
+        apps.put(packageName, groupName);
+        settingsProvider.setAppList(apps);
+
+    }
 }

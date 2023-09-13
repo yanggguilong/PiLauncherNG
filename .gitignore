@@ -12,3 +12,5 @@
 *release/
 *local.properties
 *output-metadata.json
+Launcher/build.gradle
+

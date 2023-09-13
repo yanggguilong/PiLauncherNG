@@ -158,7 +158,7 @@ public class AppsAdapter extends BaseAdapter
         String name = SettingsProvider.getAppDisplayName(mainActivityContext, currentApp.packageName, currentApp.loadLabel(pm));
         holder.textView.setText(name);
         holder.textView.setVisibility(showTextLabels ? View.VISIBLE : View.GONE);
-
+        /*
         if (isEditMode) {
             // short click for app details, long click to activate drag and drop
             holder.layout.setOnTouchListener((view, motionEvent) -> {
@@ -187,6 +187,45 @@ public class AppsAdapter extends BaseAdapter
                     } else if (event.getAction() == DragEvent.ACTION_DROP) {
                         if (System.currentTimeMillis() - lastClickTime < 250) {
                             showAppDetails(currentApp);
+                        } else {
+                            mainActivityContext.reloadUI();
+                        }
+                    }
+                    return event.getAction() != DragEvent.ACTION_DROP;
+                }
+                return true;
+            });
+
+
+         */
+        if (isEditMode) {
+            // short click for app details, long click to activate drag and drop
+            holder.layout.setOnTouchListener((view, motionEvent) -> {
+                {
+                    boolean selected = mainActivityContext.selectApp(currentApp.packageName);
+                    view.setAlpha(selected? 0.5F : 1.0F);
+                }
+                return false;
+            });
+
+
+            // drag and drop
+            holder.imageView.setOnDragListener((view, event) -> {
+                Log.i("Edit", "dragged");
+
+
+                if (currentApp.packageName.compareTo(packageName) == 0) {
+                    if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
+                        view.setVisibility(View.INVISIBLE);
+                    } else if (event.getAction() == DragEvent.ACTION_DRAG_ENDED) {
+                        mainActivityContext.reloadUI();
+                    } else if (event.getAction() == DragEvent.ACTION_DROP) {
+                        if (System.currentTimeMillis() - lastClickTime < 300) {
+                            try {
+                                showAppDetails(currentApp);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                         } else {
                             mainActivityContext.reloadUI();
                         }

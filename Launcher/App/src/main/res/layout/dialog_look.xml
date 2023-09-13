@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:id="@+id/layout"
@@ -235,7 +237,26 @@
                 android:textSize="16sp"
                 android:trackTint="@color/switch_track_color" />
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.veticia.piLauncherNext.ui.SettingsGroup
+                android:id="@+id/service_backup_settings"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:tooltipText="@string/service_backup_settings"
+                app:icon="@drawable/ic_updater"
+                app:text="@string/service_backup_settings"
+                tools:ignore="UnusedAttribute" />
+            <com.veticia.piLauncherNext.ui.SettingsGroup
+                android:id="@+id/service_restore_settings"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:tooltipText="@string/service_restore_settings"
+                app:icon="@drawable/ic_updater"
+                app:text="@string/service_restore_settings"
+                tools:ignore="UnusedAttribute" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

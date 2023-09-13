@@ -3,10 +3,14 @@ package com.veticia.piLauncherNext;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
@@ -20,6 +24,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -43,13 +48,23 @@ import com.veticia.piLauncherNext.ui.SettingsGroup;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import br.tiagohm.markdownview.MarkdownView;
 import br.tiagohm.markdownview.css.InternalStyleSheet;
@@ -127,14 +142,29 @@ public class MainActivity extends Activity
         // Handle group click listener
         groupPanelGridView.setOnItemClickListener((parent, view, position, id) -> {
             List<String> groups = settingsProvider.getAppGroupsSorted(false);
-            if (position == groups.size()) {
-                settingsProvider.selectGroup(GroupsAdapter.HIDDEN_GROUP);
-            } else if (position == groups.size() + 1) {
-                settingsProvider.selectGroup(settingsProvider.addGroup());
+            if (hasSelection) {
+                GroupsAdapter groupsAdapter = (GroupsAdapter) groupPanelGridView.getAdapter();
+                if(position<groups.size()) {
+                    for (String app : currentSelectedApps) groupsAdapter.setGroup(app, groups.get(position));
+                }
+                else {
+                    for (String app : currentSelectedApps) groupsAdapter.setGroup(app, GroupsAdapter.HIDDEN_GROUP);
+                }
+                hasSelection = false;
+                updateSelectionHint();
+                reloadUI();
             } else {
-                settingsProvider.selectGroup(groups.get(position));
+                //List<String> groups = settingsProvider.getAppGroupsSorted(false);
+                if (position == groups.size()) {
+                    settingsProvider.selectGroup(GroupsAdapter.HIDDEN_GROUP);
+                } else if (position == groups.size() + 1) {
+                    settingsProvider.selectGroup(settingsProvider.addGroup());
+                } else {
+                    settingsProvider.selectGroup(groups.get(position));
+                }
+                reloadUI();
             }
-            reloadUI();
+
         });
 
         // Multiple group selection
@@ -233,45 +263,25 @@ public class MainActivity extends Activity
         update.setVisibility(View.GONE);
         update.setOnClickListener(view -> showUpdateMain());
         checkForUpdates(update);
+
+        IntentFilter filter = new IntentFilter(FINISH_ACTION);
+        registerReceiver(finishReceiver, filter);
     }
     private long lastUpdateCheck = 0L;
-
+    // Stuff to finish the activity when it's in the background;
+    // More straightforward methods don't work on Quest.
+    private final BroadcastReceiver finishReceiver = new BroadcastReceiver() {
+        @Override public void onReceive(Context context, Intent intent) { finish();}
+    };
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(finishReceiver);
+    }
+    public static final String FINISH_ACTION = "com.threethan.launcher.FINISH";
     private void checkForUpdates(View update) {
         //once every 4 hours
-        long updateInterval = 1000 * 60 * 60 * 4;
-        if(lastUpdateCheck + updateInterval > System.currentTimeMillis()) {
-            return;
-        }
-        new Thread(() -> {
-            lastUpdateCheck = System.currentTimeMillis();
-            String string = "";
-            try {
-                URL url = new URL("https://raw.githubusercontent.com/Veticia/binaries/main/latestPiLauncher");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                    stringBuilder.append(System.lineSeparator());
-                }
-                reader.close();
-                string = stringBuilder.toString();
-            } catch (IOException e) {
-                // Handle the exception here
-            }
-            // Use the result here
-            int versionCode = BuildConfig.VERSION_CODE;
-            int newestVersion;
-            try {
-                newestVersion = Integer.parseInt(string.trim());
-            } catch (NumberFormatException e) {
-                // Handle the exception here
-                newestVersion = 0; // Set a default value
-            }
-            if(versionCode < newestVersion){
-                runOnUiThread(() -> update.setVisibility(View.VISIBLE));
-            }
-        }).start();
+       return;
    }
 
     @Override
@@ -439,6 +449,9 @@ public class MainActivity extends Activity
                 showSettingsLook();
             }
         });
+
+
+
         dialog.findViewById(R.id.settings_platforms).setOnClickListener(view -> showSettingsPlatforms());
         dialog.findViewById(R.id.settings_tweaks).setOnClickListener(view -> showSettingsTweaks());
         dialog.findViewById(R.id.settings_device).setOnClickListener(view -> {
@@ -574,6 +587,13 @@ public class MainActivity extends Activity
             editor.putBoolean(SettingsProvider.KEY_AUTORUN, value);
             editor.apply();
         });
+        d.findViewById(R.id.service_backup_settings).setOnClickListener(view -> {
+            saveSharedPreferencesToFile(new File("/sdcard/PiLauncherBackup.xml"));
+        });
+        d.findViewById(R.id.service_restore_settings).setOnClickListener(view -> {
+            loadSharedPreferencesFromFile(new File("/sdcard/PiLauncherBackup.xml"));
+            doRestart(getApplicationContext());
+        }); //setOnClickListener
     }
 
 
@@ -620,6 +640,8 @@ public class MainActivity extends Activity
         });
         d.findViewById(R.id.service_explore_app).setOnClickListener(view -> openAppDetails("com.oculus.explore"));
         d.findViewById(R.id.service_os_updater).setOnClickListener(view -> openAppDetails("com.oculus.updater"));
+
+
     }
 
     private int getPixelFromDip(int dip) {
@@ -659,4 +681,124 @@ public class MainActivity extends Activity
         intent.setData(Uri.parse("package:" + pkg));
         startActivity(intent);
     }
+
+    // Edit Mode
+    Set<String> currentSelectedApps = new HashSet<>();
+    boolean hasSelection = false;
+    public boolean selectApp(String app) {
+
+        if (currentSelectedApps.contains(app)) {
+            currentSelectedApps.remove(app);
+            if (currentSelectedApps.isEmpty()) hasSelection = false;
+            updateSelectionHint();
+            return false;
+        } else {
+            currentSelectedApps.add(app);
+            hasSelection = true;
+            updateSelectionHint();
+
+            return true;
+        }
+    }
+    void updateSelectionHint() {
+        TextView selectionHint = findViewById(R.id.SelectionHint);
+
+        final int size = currentSelectedApps.size();
+        if (size == 1) selectionHint.setText("Click a group to move the selected app.");
+        else selectionHint.setText(String.valueOf(size) +" apps selected. Click a group to move them.");
+        selectionHint.setVisibility(hasSelection ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private boolean saveSharedPreferencesToFile(File dst) {
+        File ff = new File("/data/data/"
+                + MainActivity.this.getPackageName()
+                + "/shared_prefs/" + getPackageName() + "_preferences"+".xml");
+
+        Log.i("Backing up shared prefs", ff.getPath() + "");
+
+        try {
+            copyFile(ff, dst);
+        } catch (IOException e) {
+            //throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
+    }
+    public static void copyFile(File src, File dst) throws IOException {
+        InputStream in = new FileInputStream(src);
+        try {
+            OutputStream out = new FileOutputStream(dst);
+            try {
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            } finally {
+                out.close();
+            }
+        } finally {
+            in.close();
+        }
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    private boolean loadSharedPreferencesFromFile(File src) {
+        File ff = new File("/data/data/"
+                + MainActivity.this.getPackageName()
+                + "/shared_prefs/" + getPackageName() + "_preferences"+".xml");
+
+        Log.i("Restoring shared prefs", ff.getPath() + "");
+
+        try {
+            copyFile(src, ff);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
+    }
+    public static void doRestart(Context c) {
+        try {
+            //check if the context is given
+            if (c != null) {
+                //fetch the packagemanager so we can get the default launch activity
+                // (you can replace this intent with any other activity if you want
+                PackageManager pm = c.getPackageManager();
+                //check if we got the PackageManager
+                if (pm != null) {
+                    //create the intent with the default start activity for your application
+                    Intent mStartActivity = pm.getLaunchIntentForPackage(
+                            c.getPackageName()
+                    );
+                    if (mStartActivity != null) {
+                        mStartActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //create a pending intent so the application is restarted after System.exit(0) was called.
+                        // We use an AlarmManager to call this intent in 100ms
+                        int mPendingIntentId = 223344;
+                        PendingIntent mPendingIntent = PendingIntent
+                                .getActivity(c, mPendingIntentId, mStartActivity,
+                                        PendingIntent.FLAG_CANCEL_CURRENT);
+                        AlarmManager mgr = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                        //kill the application
+                        System.exit(0);
+                    } else {
+                        Log.e("PI", "Was not able to restart application, mStartActivity null");
+                    }
+                } else {
+                    Log.e("PI", "Was not able to restart application, PM null");
+                }
+            } else {
+                Log.e("PI", "Was not able to restart application, Context null");
+            }
+        } catch (Exception ex) {
+            Log.e("PI", "Was not able to restart application");
+        }
+    }
+
 }
