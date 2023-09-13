@@ -1,5 +1,6 @@
-# piLauncherNG]
-This is a fork of Veticia's piLauncherNext with support of new Oculus Quest 2 firmware versions (56+), bugfixes and new features 
+# piLauncherNG
+This is a fork of Veticia's piLauncherNext with support of new Oculus Quest 2 firmware versions (56+), bugfixes and new features.
+ 
 An alternative launcher for VR headsets supporting official/sideloaded apps and games.
 
 [Builds](https://github.com/ValentineShilov/PiLauncherNG/releases)
@@ -13,6 +14,7 @@ An alternative launcher for VR headsets supporting official/sideloaded apps and 
 * Hit play button in Android Studio
 
 ## Similar Projects
+* [QuestPiLauncher] (https://github.com/threethan/LightningLauncher).
 * [DreamGrid](https://github.com/basti564/DreamGrid), a more Oculus-centric fork of piLauncher
 * [PicoZen](https://github.com/barnabwhy/PicoZen), launcher made to look more like a native Pico app
-  [QuestPiLauncher] (https://github.com/lvonasek/QuestPiLauncher).
+* [QuestPiLauncher] (https://github.com/lvonasek/QuestPiLauncher).
