@@ -87,7 +87,19 @@ public class MainActivity extends Activity
             R.drawable.bkg_glass,
             R.drawable.bkg_rgb,
             R.drawable.bkg_skin,
-            R.drawable.bkg_underwater
+            R.drawable.bkg_underwater,
+            //R.drawable.blue2,
+            R.drawable.blueabstract,
+            R.drawable.brown,
+            R.drawable.brown2,
+            R.drawable.digitalneuro,
+            R.drawable.green,
+            R.drawable.grey,
+            R.drawable.blackwhite,
+            R.drawable.red1,
+           // R.drawable.red2,
+            R.drawable.white
+
     };
 
     public static final String[] STYLES = {
@@ -547,6 +559,15 @@ public class MainActivity extends Activity
                 d.findViewById(R.id.theme2),
                 d.findViewById(R.id.theme3),
                 d.findViewById(R.id.theme4),
+                d.findViewById(R.id.theme5),
+                d.findViewById(R.id.theme6),
+                d.findViewById(R.id.theme7),
+                d.findViewById(R.id.theme8),
+                d.findViewById(R.id.theme9),
+                d.findViewById(R.id.theme10),
+                d.findViewById(R.id.theme11),
+                d.findViewById(R.id.theme12),
+                d.findViewById(R.id.theme13),
                 d.findViewById(R.id.theme_custom)
         };
         for (ImageView image : views) {
@@ -554,6 +575,10 @@ public class MainActivity extends Activity
         }
         views[theme].setBackgroundColor(Color.WHITE);
         for (int i = 0; i < views.length; i++) {
+            if(i<THEMES.length)
+            {
+                views[i].setImageResource(THEMES[i]);
+            }
             int index = i;
             views[i].setOnClickListener(view12 -> {
                 //noinspection NonStrictComparisonCanBeEquality

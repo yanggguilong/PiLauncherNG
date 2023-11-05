@@ -3,6 +3,7 @@
     <string-array name="explore_accessibility_event_names">
         <!-- event names for both oculus and pico, be careful with removing event names -->
         <item>[Eksploruj]</item>
+        <item>[Horizon Feed]</item>
         <item>[Entdecken]</item>
         <item>[Erkunden]</item>
         <item>[Esplora]</item>

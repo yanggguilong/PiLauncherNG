@@ -31,7 +31,9 @@
                 android:layout_weight="1"
                 android:padding="0dp"
                 android:dividerHeight="0dp"
-                android:divider="#00000000" />
+                android:divider="#00000000"
+                android:background="@drawable/bkg_button"
+                />
 
             <android.widget.TextView
                 android:id="@+id/filler"
