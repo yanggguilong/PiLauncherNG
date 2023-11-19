@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="app_library_accessibility_event_names">
+        <item>[App Library]</item>
+        <item>[アプリライブラリ]</item>
+        <item>[Sovelluskirjasto]</item>
+        <item>[Appbibliotheek]</item>
+        <item>[Biblioteca de apps]</item>
+        <item>[Appbibliotek]</item>
+        <item>[Knihovna aplikací]</item>
+        <item>[Biblioteka aplikacji]</item>
+        <item>[Βιβλιοθήκη εφαρμογών]</item>
+        <item>[Biblioteca de apps]</item>
+        <item>[Biblioteca de Apps]</item>
+        <item>[Biblioteca de aplicaţii]</item>
+        <item>[Библиотека приложений]</item>
+        <item>[앱 라이브러리]</item>
+        <item>[Biblioteca de aplicaciones</item>
+        <item>[應用程式資料庫]</item>
+        <item>[应用库]</item>
+    </string-array>
+
     <string-array name="explore_accessibility_event_names">
         <!-- event names for both oculus and pico, be careful with removing event names -->
         <item>[Eksploruj]</item>

@@ -1,9 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 ext {
-    var1 = 'C:\\Users\\Username\\android_signing_key.jks'
-    var2 = 'password'
-    var4 = 'key0'
-    var3 = 'password'
+    var1 = '../android_signing_key.jks'
+    var2 = '123456'
+    var4 = 'androidkey'
+    var3 = '123456'
 }
 
 buildscript {
@@ -12,7 +12,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.1'
+        classpath 'com.android.tools.build:gradle:8.4.0'
     }
 }
 

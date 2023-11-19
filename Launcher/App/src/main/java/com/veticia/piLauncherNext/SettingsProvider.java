@@ -34,6 +34,8 @@ public class SettingsProvider
     public static final String KEY_CUSTOM_STYLE = "KEY_CUSTOM_STYLE";
     public static final String KEY_EDITMODE = "KEY_EDITMODE";
     public static final String KEY_AUTORUN = "KEY_AUTORUN";
+    public static final String KEY_EXPLORE = "KEY_EXPLORE";
+    public static final String KEY_APPLIB = "KEY_APPLIB";
     public static final String KEY_PLATFORM_ANDROID = "KEY_PLATFORM_ANDROID";
     public static final String KEY_PLATFORM_PSP = "KEY_PLATFORM_PSP";
     public static final String KEY_PLATFORM_VR = "KEY_PLATFORM_VR";
@@ -149,6 +151,9 @@ public class SettingsProvider
                 // Check for system app
                 boolean isSystemApp = (installedApplication.flags & ApplicationInfo.FLAG_SYSTEM) == 1;
                 if (pkg.startsWith("com.oculus.browser")) isSystemApp = false;              //X
+                if (pkg.startsWith("com.oculus.explore")) isSystemApp = false;
+                if (pkg.startsWith("com.oculus.horizon")) isSystemApp = false;
+                if (pkg.startsWith("com.oculus.os.chargecontrol")) isSystemApp = false;
                 if (pkg.startsWith("metapwa")) isSystemApp = true;
                 if (pkg.startsWith("oculuspwa")) isSystemApp = true;
                 if (pkg.startsWith("com.facebook.arvr")) isSystemApp = true;

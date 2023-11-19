@@ -15,20 +15,20 @@ android {
             keyAlias var4
         }
     }
-    compileSdkVersion 29
+    compileSdkVersion 34
 
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion 26
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 23
+        targetSdkVersion 32
         versionCode 111
         versionName "1.1.1"
         signingConfig signingConfigs.release
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     buildTypes {
         release {
@@ -40,7 +40,7 @@ android {
         abortOnError true
         disable 'Accessibility'
     }
-    buildToolsVersion '33.0.0'
+    buildToolsVersion '34.0.0'
     namespace 'com.veticia.piLauncherNext'
 }
 
