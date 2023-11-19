@@ -254,27 +254,55 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.widget.TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/accesibility_label"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp" />
 
+                <Switch
+                    android:id="@+id/checkbox_launch_on_explore"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Replace Explore app"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:trackTint="@color/switch_track_color" />
                 <Button
-                    android:id="@+id/open_accesibility"
+                    android:id="@+id/open_accessibility"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/accesibility_button" />
 
             </LinearLayout>
-
             <android.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/accesibility_tooltip"
+                android:text="@string/accessibility_tooltip"
+                android:textAlignment="center"
+                android:textColor="@android:color/tertiary_text_light"
+                android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Switch
+                    android:id="@+id/checkbox_launch_on_app_lib"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Launch on App library"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:trackTint="@color/switch_track_color" />
+                <Button
+                    android:id="@+id/open_accessibility_applib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/accesibility_button" />
+            </LinearLayout>
+            <android.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/accessibility_tooltip"
                 android:textAlignment="center"
                 android:textColor="@android:color/tertiary_text_light"
                 android:textSize="16sp" />

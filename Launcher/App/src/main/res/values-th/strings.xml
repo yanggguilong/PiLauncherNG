@@ -25,7 +25,7 @@
 
     <string name="accesibility_label">แทนที่แอปสำรวจ</string>
     <string name="accesibility_button">เปิดการตั้งค่า</string>
-    <string name="accesibility_tooltip">เปิดใช้งาน 爪 Launcher ในเมนูการเข้าถึง</string>
+    <string name="accessibility_tooltip">เปิดใช้งาน 爪 Launcher ในเมนูการเข้าถึง</string>
     <string name="icons_style">สไตล์ไอคอน</string>
     <string name="update_header">มีเวอร์ชันใหม่</string>
     <string name="autorun">เปิดใช้งาน 爪 Launcher พร้อมกับการเริ่มต้นระบบ</string>

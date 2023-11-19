@@ -108,6 +108,8 @@ public class MainActivity extends Activity
             "tenaldo_square"
     };
     private static final boolean DEFAULT_AUTORUN = true;
+    static final boolean DEFAULT_EXPLORE= true;
+    static final boolean DEFAULT_APPLIB = false;
     public static final String EMULATOR_PACKAGE = "org.ppsspp.ppssppvr";
 
     private static ImageView[] selectedThemeImageViews;
@@ -143,7 +145,9 @@ public class MainActivity extends Activity
         if (AbstractPlatform.isMagicLeapHeadset()) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        sharedPreferences = getSharedPreferences(getPackageName() + "_preferences", Context.MODE_PRIVATE);
+        if(sharedPreferences==null) {
+            sharedPreferences = getSharedPreferences(getPackageName() + "_preferences", Context.MODE_PRIVATE);
+        }
         settingsProvider = SettingsProvider.getInstance(this);
 
         // Get UI instances
@@ -495,10 +499,16 @@ public class MainActivity extends Activity
     private void showSettingsLook() {
         Dialog d = showPopup(R.layout.dialog_look);
         d.setOnDismissListener(dialogInterface -> isSettingsLookOpen = false);
-        d.findViewById(R.id.open_accesibility).setOnClickListener(view -> {
+        d.findViewById(R.id.open_accessibility).setOnClickListener(view -> {
             ButtonManager.isAccessibilityInitialized(this);
             ButtonManager.requestAccessibility(this);
         });
+
+        d.findViewById(R.id.open_accessibility_applib).setOnClickListener(view -> {
+            ButtonManager.isAccessibilityInitialized(this);
+            ButtonManager.requestAccessibility(this);
+        });
+
         Switch names = d.findViewById(R.id.checkbox_names);
         names.setChecked(sharedPreferences.getBoolean(SettingsProvider.KEY_CUSTOM_NAMES, DEFAULT_NAMES));
         names.setOnCheckedChangeListener((compoundButton, value) -> {
@@ -612,6 +622,24 @@ public class MainActivity extends Activity
             editor.putBoolean(SettingsProvider.KEY_AUTORUN, value);
             editor.apply();
         });
+
+        Switch enable_explore = d.findViewById(R.id.checkbox_launch_on_explore);
+        enable_explore.setChecked(sharedPreferences.getBoolean(SettingsProvider.KEY_EXPLORE, DEFAULT_EXPLORE));
+        enable_explore.setOnCheckedChangeListener((compoundButton, value) -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(SettingsProvider.KEY_EXPLORE, value);
+            editor.apply();
+        });
+
+        Switch enable_applib = d.findViewById(R.id.checkbox_launch_on_app_lib);
+        enable_applib.setChecked(sharedPreferences.getBoolean(SettingsProvider.KEY_APPLIB, DEFAULT_APPLIB));
+        enable_applib.setOnCheckedChangeListener((compoundButton, value) -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(SettingsProvider.KEY_APPLIB, value);
+            editor.apply();
+        });
+
+
         d.findViewById(R.id.service_backup_settings).setOnClickListener(view -> {
             saveSharedPreferencesToFile(new File("/sdcard/PiLauncherBackup.xml"));
         });

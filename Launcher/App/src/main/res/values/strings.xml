@@ -25,14 +25,14 @@
 
     <string name="accesibility_label">Replace Explore app</string>
     <string name="accesibility_button">Open settings</string>
-    <string name="accesibility_tooltip" >Enable 爪 Launcher in accesibility menu</string>
+    <string name="accessibility_tooltip" translatable="false">Enable 爪 Launcher in accesibility menu</string>
     <string name="icons_style">Icons style</string>
     <string name="update_header">New version available</string>
     <string name="autorun">Launch 爪 Launcher with system startup</string>
     <string name="failed_to_launch">Failed to launch</string>
     <string name="default_tools_group">Tools</string>
-    <string name="service_backup_settings">Backup settings</string>
-    <string name="service_restore_settings">Restore settings</string>
+    <string name="service_backup_settings" translatable="false">Backup settings</string>
+    <string name="service_restore_settings" translatable="false">Restore settings</string>
 
     <string-array name="sort_options">
         <item>↓ Name</item>
