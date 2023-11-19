@@ -21,16 +21,17 @@ public class ButtonManager extends AccessibilityService
             for (String eventName : exploreAccessibilityEventNames) {
                 if (eventName.compareTo(eventText) == 0) {
 
-                    Intent finishIntent = new Intent(MainActivity.FINISH_ACTION);
-                    sendBroadcast(finishIntent);
+                   // Intent finishIntent = new Intent(MainActivity.FINISH_ACTION);
+                    //sendBroadcast(finishIntent);
 
-                    Intent launchIntent = new Intent(this, MainActivity.class);
-
-                    launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
+                   // Intent launchIntent = new Intent(this, MainActivity.class);
+                    Intent launchIntent = new Intent(this, AccessibilityLauncherProxy.class);
+                   // launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
 
                     Log.i("PiLauncherService", "Opening launcher activity from accessibility event");
                     startActivity(launchIntent);
+
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -38,6 +39,7 @@ public class ButtonManager extends AccessibilityService
                             startActivity(launchIntent);
                         }
                     }, 650);
+                    /*
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -45,6 +47,8 @@ public class ButtonManager extends AccessibilityService
                             startActivity(launchIntent);
                         }
                     }, 800);
+
+                     */
                 }
             }
         }

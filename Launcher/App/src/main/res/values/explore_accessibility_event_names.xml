@@ -4,11 +4,30 @@
         <!-- event names for both oculus and pico, be careful with removing event names -->
         <item>[Eksploruj]</item>
         <item>[Horizon Feed]</item>
+        <item>[Ροή Horizon]</item>
+        <item>[Feed de Horizon]</item>
+        <item>[Horizon-syöte]</item>
+        <item>[Fil Horizon]</item>
+        <item>[Feed di Horizon]</item>
+        <item>[Лента Horizon]</item>
+        <item>[Лента Oculus]</item>
+        <item>[Horizonフィード]</item>
+        <item>[Horizon 피드]</item>
+        <item>[Horizon-feed]</item>
+        <item>[Horizon-feed]</item>
+        <item>[Horizon-overzicht]</item>
+        <item>[Aktualności Horizon]</item>
+        <item>[Fluxul Horizon]</item>
+        <item>[Horizon-flödet]</item>
+        <item>[Horizon Akışı]</item>
+        <item>[Horizon 动态]</item>
+        <item>[Horizon 動態消息]</item>
         <item>[Entdecken]</item>
         <item>[Erkunden]</item>
         <item>[Esplora]</item>
         <item>[Explorar]</item>
         <item>[Explore]</item>
+        <item>[Oculus Explore]</item>
         <item>[Explorează]</item>
         <item>[Explorer]</item>
         <item>[Keşfet]</item>
